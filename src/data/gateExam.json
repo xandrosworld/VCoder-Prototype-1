@@ -1,0 +1,56 @@
+{
+  "level": "L1",
+  "passThreshold": 80,
+  "questions": [
+    {
+      "id": "gate-l1-01",
+      "question": "A node capstone is passed at which minimum score?",
+      "options": ["60%", "70%", "80%", "90%"],
+      "answer": "80%"
+    },
+    {
+      "id": "gate-l1-02",
+      "question": "Which finding is most critical in an AI-generated API handler?",
+      "options": [
+        "Missing trailing comma",
+        "Different variable name style",
+        "Returning another user's project without an ownership check",
+        "A long function name"
+      ],
+      "answer": "Returning another user's project without an ownership check"
+    },
+    {
+      "id": "gate-l1-03",
+      "question": "What should a recovery note include?",
+      "options": [
+        "Only the final fix",
+        "Blast radius, last-known-good state, rollback/fix-forward decision, and verification",
+        "A promise to test later",
+        "A screenshot of the homepage"
+      ],
+      "answer": "Blast radius, last-known-good state, rollback/fix-forward decision, and verification"
+    },
+    {
+      "id": "gate-l1-04",
+      "question": "Which prompt is most appropriate for AI-assisted production code changes?",
+      "options": [
+        "Change anything you want.",
+        "Read the relevant files, preserve public contracts, propose a plan, add a regression test, and wait before broad refactors.",
+        "Skip tests and optimize later.",
+        "Rewrite the system in a new stack."
+      ],
+      "answer": "Read the relevant files, preserve public contracts, propose a plan, add a regression test, and wait before broad refactors."
+    },
+    {
+      "id": "gate-l1-05",
+      "question": "What does AI-Ready status require?",
+      "options": [
+        "Average level above L2 only",
+        "A1>=L2, A2>=L2, A3>=L1, A4>=L2; A5 is measured but not a gate",
+        "Axis 5 only",
+        "Completing any one learning node"
+      ],
+      "answer": "A1>=L2, A2>=L2, A3>=L1, A4>=L2; A5 is measured but not a gate"
+    }
+  ]
+}

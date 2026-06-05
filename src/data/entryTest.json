@@ -1,0 +1,138 @@
+{
+  "estimatedDuration": "30-60 minutes",
+  "mcq": [
+    {
+      "id": "p1-01",
+      "axis": 4,
+      "question": "A coding agent proposes committing a `.env` file that contains `OPENAI_API_KEY`. What is the best response?",
+      "options": [
+        "Commit it because the repository is private.",
+        "Move the secret to an environment variable manager, rotate the exposed key, and add `.env` to `.gitignore`.",
+        "Rename the file to `env.backup` and commit it.",
+        "Ask the agent to minify the file so the key is less visible."
+      ],
+      "answer": "Move the secret to an environment variable manager, rotate the exposed key, and add `.env` to `.gitignore`."
+    },
+    {
+      "id": "p1-02",
+      "axis": 2,
+      "question": "An AI-generated diff changes `WHERE user_id = ?` to `WHERE email = ?` without a migration. What should you review first?",
+      "options": [
+        "Whether the new code is shorter.",
+        "Whether the query preserves authorization boundaries and has a compatible indexed column.",
+        "Whether the AI used modern syntax.",
+        "Whether the file has comments."
+      ],
+      "answer": "Whether the query preserves authorization boundaries and has a compatible indexed column."
+    },
+    {
+      "id": "p1-03",
+      "axis": 1,
+      "question": "Which instruction gives an AI coding assistant the strongest context for a small production fix?",
+      "options": [
+        "Fix the bug.",
+        "Make the app better.",
+        "Inspect `src/auth/session.ts`, preserve the existing API, add a regression test for expired sessions, and summarize the diff before final edits.",
+        "Rewrite authentication using a new framework."
+      ],
+      "answer": "Inspect `src/auth/session.ts`, preserve the existing API, add a regression test for expired sessions, and summarize the diff before final edits."
+    },
+    {
+      "id": "p1-04",
+      "axis": 3,
+      "question": "A generated refactor breaks checkout in production. What is the safest first recovery move?",
+      "options": [
+        "Ask the AI to refactor more files.",
+        "Restart the server repeatedly.",
+        "Identify the last known good deploy, stop further rollout, and choose rollback or fix-forward based on blast radius.",
+        "Delete the failing tests."
+      ],
+      "answer": "Identify the last known good deploy, stop further rollout, and choose rollback or fix-forward based on blast radius."
+    },
+    {
+      "id": "p1-05",
+      "axis": 5,
+      "question": "Why does an AI-native product need evals in addition to unit tests?",
+      "options": [
+        "Evals replace all tests.",
+        "Evals measure output quality and regressions for probabilistic behavior that unit tests cannot fully cover.",
+        "Evals make prompts private.",
+        "Evals are only for frontend apps."
+      ],
+      "answer": "Evals measure output quality and regressions for probabilistic behavior that unit tests cannot fully cover."
+    },
+    {
+      "id": "p1-06",
+      "axis": 2,
+      "question": "The AI says a change is safe but did not run tests. What is the best reviewer action?",
+      "options": [
+        "Accept because the model is confident.",
+        "Ask for the exact verification command and inspect the relevant diff and failure modes.",
+        "Only check formatting.",
+        "Merge if the app starts locally."
+      ],
+      "answer": "Ask for the exact verification command and inspect the relevant diff and failure modes."
+    },
+    {
+      "id": "p1-07",
+      "axis": 4,
+      "question": "A minimal regression test should primarily prove what?",
+      "options": [
+        "That the old bug would fail before the fix and pass after the fix.",
+        "That every line is covered.",
+        "That the implementation uses mocks everywhere.",
+        "That the UI has no visual issues."
+      ],
+      "answer": "That the old bug would fail before the fix and pass after the fix."
+    },
+    {
+      "id": "p1-08",
+      "axis": 1,
+      "question": "What belongs in a plan-first prompt for a codebase task?",
+      "options": [
+        "Target files, constraints, acceptance criteria, and verification commands.",
+        "Only the desired final code.",
+        "A request to skip reading existing patterns.",
+        "A list of unrelated feature ideas."
+      ],
+      "answer": "Target files, constraints, acceptance criteria, and verification commands."
+    }
+  ],
+  "audit": {
+    "title": "P2 Code Audit: AI-generated authorization patch",
+    "prompt": "Review the AI-generated Express handler. List at least three findings with location, severity, and proposed fix.",
+    "code": "app.get('/api/projects/:id', async (req, res) => {\n  const project = await db.project.findFirst({ where: { id: req.params.id } });\n  if (!project) return res.status(404).json({ error: 'not found' });\n  console.log('debug token', req.headers.authorization);\n  res.json(project);\n});",
+    "expectedFindings": [
+      "Missing ownership or role check before returning project data.",
+      "Authorization token is logged and may leak secrets.",
+      "The ID path parameter is trusted without validation."
+    ]
+  },
+  "recovery": {
+    "title": "P3 Recovery / Debug scenario",
+    "scenario": "A coding agent changed session middleware and all admin routes now return 500. The latest deploy reached 20% of traffic. Error logs show `Cannot read properties of undefined (reading 'role')` in `requireAdmin`.",
+    "choices": [
+      "Rollback the canary, inspect the diff, add a guard/regression test, then redeploy with verification.",
+      "Keep rollout moving and ask the AI to patch production directly."
+    ]
+  },
+  "promptPlan": {
+    "title": "P4 Prompt / Plan",
+    "task": "Write a scoped prompt and short implementation plan for fixing the `requireAdmin` middleware without changing public route contracts.",
+    "template": [
+      "Context files",
+      "Constraints",
+      "Acceptance criteria",
+      "Plan before code",
+      "Verification command"
+    ]
+  },
+  "viva": {
+    "title": "P5 Mini-viva",
+    "questions": [
+      "When is it acceptable to trust an AI-generated diff?",
+      "Explain the difference between a unit test and an eval in an AI product.",
+      "Who owns a production defect introduced by an AI coding assistant, and why?"
+    ]
+  }
+}

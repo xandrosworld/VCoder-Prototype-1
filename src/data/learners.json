@@ -1,0 +1,154 @@
+[
+  {
+    "id": "minh",
+    "name": "Dang Minh",
+    "role": "Cohort 2 learner",
+    "optedInLeaderboard": true,
+    "optedInPercentile": false,
+    "levels": { "1": "L2", "2": "L1", "3": "L2", "4": "L2", "5": "L1" },
+    "quickWins": [
+      "Use a plan-first prompt with acceptance criteria before asking for code.",
+      "Add a security checklist before accepting AI-generated handlers.",
+      "Write one regression test before fix-forward on broken middleware."
+    ],
+    "evidence": [
+      {
+        "axis": 2,
+        "source": "P2 Code Audit",
+        "quote": "Found the leaked authorization token but missed the missing ownership check."
+      },
+      {
+        "axis": 3,
+        "source": "P3 Recovery",
+        "quote": "Chose rollback for the canary and named the failing middleware before fix-forward."
+      },
+      {
+        "axis": 1,
+        "source": "P4 Prompt / Plan",
+        "quote": "Included target file, constraints, acceptance criteria, and verification command."
+      }
+    ],
+    "currentNode": "Code Audit Basics",
+    "stuckDays": 2
+  },
+  {
+    "id": "an",
+    "name": "Nguyen An",
+    "role": "CS student",
+    "optedInLeaderboard": true,
+    "optedInPercentile": true,
+    "levels": { "1": "L2", "2": "L2", "3": "L2", "4": "L2", "5": "L1" },
+    "quickWins": ["Practice eval design for AI outputs.", "Add threat-model notes to prompts.", "Use diff review templates."],
+    "evidence": [{ "axis": 2, "source": "P2 Code Audit", "quote": "Caught auth bypass, token logging, and missing validation with severity labels." }],
+    "currentNode": "Gate Exam: L1",
+    "stuckDays": 0
+  },
+  {
+    "id": "mai",
+    "name": "Tran Mai",
+    "role": "Frontend developer",
+    "optedInLeaderboard": true,
+    "optedInPercentile": true,
+    "levels": { "1": "L3", "2": "L2", "3": "L2", "4": "L2", "5": "L2" },
+    "quickWins": ["Document reusable prompt context.", "Add UI regression checks.", "Pair architecture notes with eval criteria."],
+    "evidence": [{ "axis": 1, "source": "P4 Prompt / Plan", "quote": "Scoped the request around existing component boundaries and verification." }],
+    "currentNode": "AI Product Evals",
+    "stuckDays": 0
+  },
+  {
+    "id": "khoa",
+    "name": "Le Khoa",
+    "role": "Backend intern",
+    "optedInLeaderboard": true,
+    "optedInPercentile": true,
+    "levels": { "1": "L1", "2": "L1", "3": "L1", "4": "L1", "5": "L0" },
+    "quickWins": ["Read diffs before accepting.", "Name rollback conditions.", "Practice secret management basics."],
+    "evidence": [{ "axis": 4, "source": "P1 MCQ", "quote": "Missed secret rotation and git hygiene question." }],
+    "currentNode": "Engineering Foundations Lab",
+    "stuckDays": 8
+  },
+  {
+    "id": "linh",
+    "name": "Pham Linh",
+    "role": "Data analyst",
+    "optedInLeaderboard": true,
+    "optedInPercentile": false,
+    "levels": { "1": "L2", "2": "L2", "3": "L1", "4": "L2", "5": "L1" },
+    "quickWins": ["Turn analysis prompts into plan templates.", "Use MCQ checkpoints for weak areas.", "Add eval examples for data tasks."],
+    "evidence": [{ "axis": 3, "source": "P3 Recovery", "quote": "Named rollback and validation steps, but triage order was incomplete." }],
+    "currentNode": "Recovery Playbooks",
+    "stuckDays": 1
+  },
+  {
+    "id": "hieu",
+    "name": "Vo Hieu",
+    "role": "Mobile developer",
+    "optedInLeaderboard": true,
+    "optedInPercentile": true,
+    "levels": { "1": "L3", "2": "L3", "3": "L2", "4": "L3", "5": "L2" },
+    "quickWins": ["Formalize eval pipeline notes.", "Mentor peers on review rubrics.", "Create reusable context packs."],
+    "evidence": [{ "axis": 5, "source": "P5 Mini-viva", "quote": "Explained evals, guardrails, and ownership clearly." }],
+    "currentNode": "Context Engineering Studio",
+    "stuckDays": 0
+  },
+  {
+    "id": "bao",
+    "name": "Do Bao",
+    "role": "QA engineer",
+    "optedInLeaderboard": true,
+    "optedInPercentile": true,
+    "levels": { "1": "L2", "2": "L3", "3": "L2", "4": "L2", "5": "L1" },
+    "quickWins": ["Add architecture tradeoff notes.", "Use stricter prompt constraints.", "Map findings to severity consistently."],
+    "evidence": [{ "axis": 2, "source": "P2 Code Audit", "quote": "Prioritized auth bypass as critical and suggested concrete fix." }],
+    "currentNode": "Advanced Review Lab",
+    "stuckDays": 0
+  },
+  {
+    "id": "vy",
+    "name": "Hoang Vy",
+    "role": "Student",
+    "optedInLeaderboard": true,
+    "optedInPercentile": false,
+    "levels": { "1": "L1", "2": "L0", "3": "L1", "4": "L1", "5": "L0" },
+    "quickWins": ["Do not accept AI output without a diff read.", "Practice security MCQs.", "Use a structured audit template."],
+    "evidence": [{ "axis": 2, "source": "P2 Code Audit", "quote": "Focused on formatting and did not mention missing authorization." }],
+    "currentNode": "Code Audit Basics",
+    "stuckDays": 6
+  },
+  {
+    "id": "tuan",
+    "name": "Bui Tuan",
+    "role": "Full-stack developer",
+    "optedInLeaderboard": true,
+    "optedInPercentile": true,
+    "levels": { "1": "L4", "2": "L3", "3": "L3", "4": "L3", "5": "L3" },
+    "quickWins": ["Add human-in-the-loop policy notes.", "Calibrate judge prompt examples.", "Package reusable SKILL.md assets."],
+    "evidence": [{ "axis": 1, "source": "P4 Prompt / Plan", "quote": "Included constraints, rollback plan, and verification checkpoints." }],
+    "currentNode": "Agentic Engineering Studio",
+    "stuckDays": 0
+  },
+  {
+    "id": "ngoc",
+    "name": "Vu Ngoc",
+    "role": "DevOps learner",
+    "optedInLeaderboard": true,
+    "optedInPercentile": true,
+    "levels": { "1": "L2", "2": "L2", "3": "L3", "4": "L2", "5": "L2" },
+    "quickWins": ["Bring deploy rollback habits into prompts.", "Add test commands to every plan.", "Connect ops metrics to eval design."],
+    "evidence": [{ "axis": 3, "source": "P3 Recovery", "quote": "Selected rollback, identified blast radius, and preserved logs." }],
+    "currentNode": "AI Product Evals",
+    "stuckDays": 0
+  },
+  {
+    "id": "hidden-01",
+    "name": "Opt-out Learner",
+    "role": "Private profile",
+    "optedInLeaderboard": false,
+    "optedInPercentile": false,
+    "levels": { "1": "L4", "2": "L4", "3": "L4", "4": "L4", "5": "L4" },
+    "quickWins": ["Private data is excluded from leaderboard."],
+    "evidence": [{ "axis": 5, "source": "P5 Mini-viva", "quote": "This learner is intentionally hidden from ranking." }],
+    "currentNode": "Private",
+    "stuckDays": 0
+  }
+]

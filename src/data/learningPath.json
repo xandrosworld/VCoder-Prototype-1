@@ -1,0 +1,52 @@
+[
+  {
+    "id": "node-a1-l1",
+    "title": "Prompt Reliability",
+    "level": "L1",
+    "axis": 1,
+    "status": "completed",
+    "checkpoint": "passed",
+    "capstone": "passed",
+    "description": "Turn vague AI requests into scoped prompts with context files, constraints, and acceptance criteria."
+  },
+  {
+    "id": "node-a2-l1",
+    "title": "Code Audit Basics",
+    "level": "L1",
+    "axis": 2,
+    "status": "in_progress",
+    "checkpoint": "passed",
+    "capstone": "available",
+    "description": "Review AI-generated diffs for auth, data access, secret leakage, and regression risk."
+  },
+  {
+    "id": "node-a3-l1",
+    "title": "Recovery Playbooks",
+    "level": "L1",
+    "axis": 3,
+    "status": "available",
+    "checkpoint": "available",
+    "capstone": "locked",
+    "description": "Choose rollback or fix-forward from blast radius, logs, and last-known-good state."
+  },
+  {
+    "id": "node-a4-l1",
+    "title": "Engineering Foundations Lab",
+    "level": "L1",
+    "axis": 4,
+    "status": "available",
+    "checkpoint": "available",
+    "capstone": "locked",
+    "description": "Practice unit tests, git hygiene, secret management, and safe verification commands."
+  },
+  {
+    "id": "node-a5-l2",
+    "title": "AI Product Evals",
+    "level": "L2",
+    "axis": 5,
+    "status": "locked",
+    "checkpoint": "locked",
+    "capstone": "locked",
+    "description": "Design basic evals for AI output quality, regressions, and guardrail failures."
+  }
+]
