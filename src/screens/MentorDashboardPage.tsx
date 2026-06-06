@@ -19,7 +19,9 @@ export function MentorDashboardPage() {
         Cohort overview, progress distribution, at-risk learners, stuck nodes, red flags, and recommended interventions.
       </PageHeader>
       <div className="grid gap-4 md:grid-cols-4">
-        <MetricCard label="Cohort size" value={dashboardData.cohortSize} icon={<Users size={20} />} />
+        <div data-tour="mentor-dashboard">
+          <MetricCard label="Cohort size" value={dashboardData.cohortSize} icon={<Users size={20} />} />
+        </div>
         <MetricCard label="Completion rate" value={`${dashboardData.completionRate}%`} icon={<CheckCircle2 size={20} />} />
         <MetricCard label="AI-ready count" value={dashboardData.aiReadyCount} icon={<GraduationCap size={20} />} />
         <MetricCard label="At-risk learners" value={atRisk.length} icon={<AlertTriangle size={20} />} detail="Simulated risk logic" />

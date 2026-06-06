@@ -36,7 +36,7 @@ export function EntryTestOverview() {
         <StatusBadge status={overall.complete ? "valid" : "warning"} label={`${overall.completedParts}/${overall.totalParts} parts complete`} />
       </div>
       {assessmentError ? <p role="alert" className="mb-4 rounded border border-rose-200 bg-rose-50 p-3 text-sm text-rose-900">{assessmentError}</p> : null}
-      <div className="grid gap-4">
+      <div data-tour="entry-test-parts" className="grid gap-4">
         {parts.map(([partId, label, title, text]) => {
           const progress = getPartProgress(assessmentAnswers, partId);
           return (

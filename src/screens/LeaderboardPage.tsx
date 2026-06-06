@@ -27,6 +27,7 @@ export function LeaderboardPage() {
       <PageHeader title="Leaderboard" eyebrow="F4 - opt-in cohort ranking">
         Leaderboard is opt-in to avoid exposing sensitive learner data by default.
       </PageHeader>
+      <div data-tour="leaderboard">
       <div className="mb-4 flex flex-wrap gap-2">
         <select value={axisFilter} onChange={(event) => setAxisFilter(event.target.value === "all" ? "all" : Number(event.target.value) as AxisId)} className="rounded border border-slate-300 bg-white px-3 py-2 text-sm">
           <option value="all">Average level</option>
@@ -76,6 +77,7 @@ export function LeaderboardPage() {
       <div className="mt-4 flex flex-wrap gap-2">
         {axisFilter !== "all" ? <AxisBadge axis={axisFilter} /> : null}
         {axisFilter !== "all" ? <LevelBadge level="L2" /> : null}
+      </div>
       </div>
     </div>
   );

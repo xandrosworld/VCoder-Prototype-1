@@ -7,7 +7,7 @@ import { PageHeader } from "../components/common/PageHeader";
 export function LandingPage() {
   return (
     <div>
-      <section className="rounded-lg bg-slate-950 p-8 text-white shadow-sm">
+      <section data-tour="landing-hero" className="rounded-lg bg-slate-950 p-8 text-white shadow-sm">
         <div className="max-w-4xl">
           <p className="text-sm font-bold uppercase tracking-wide text-blue-300">VCoder P0 stakeholder story demo</p>
           <h1 className="mt-3 text-4xl font-bold">Measure whether learners can control AI in real software work.</h1>

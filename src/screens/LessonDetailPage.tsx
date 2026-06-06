@@ -19,12 +19,14 @@ export function LessonDetailPage() {
           <LevelBadge level={node.targetLevel} />
         </div>
       </PageHeader>
-      <LessonRenderer lesson={lesson} />
-      <div className="mt-5 flex flex-wrap gap-3">
-        <Link to={`/lab/${node.labId}`} className="rounded bg-blue-600 px-4 py-3 text-sm font-bold text-white">Start Lab / Checkpoint</Link>
-        {node.lessonIds.map((id) => (
-          <Link key={id} to={`/lesson/${id}`} className="rounded border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700">Lesson {id.split("-").slice(-1)[0]}</Link>
-        ))}
+      <div data-tour="lesson-and-lab">
+        <LessonRenderer lesson={lesson} />
+        <div className="mt-5 flex flex-wrap gap-3">
+          <Link to={`/lab/${node.labId}`} className="rounded bg-blue-600 px-4 py-3 text-sm font-bold text-white">Start Lab / Checkpoint</Link>
+          {node.lessonIds.map((id) => (
+            <Link key={id} to={`/lesson/${id}`} className="rounded border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700">Lesson {id.split("-").slice(-1)[0]}</Link>
+          ))}
+        </div>
       </div>
     </div>
   );

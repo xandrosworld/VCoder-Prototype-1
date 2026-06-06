@@ -24,9 +24,13 @@ export function LearningPathPage() {
       </div>
       <div className="grid gap-5 lg:grid-cols-[1fr_300px]">
         <div className="grid gap-4">
-          {learningNodes.map((node) => {
+          {learningNodes.map((node, index) => {
             const available = isNodeAvailable(node, { completedNodeIds, axisLevels: profile.axisLevels });
-            return <LearningNodeCard key={node.id} node={node} available={available} completed={completedNodeIds.includes(node.id)} lockReason={getNodeLockReason(node, { completedNodeIds, axisLevels: profile.axisLevels })} />;
+            return (
+              <div key={node.id} data-tour={index === 0 ? "learning-path-nodes" : undefined}>
+                <LearningNodeCard node={node} available={available} completed={completedNodeIds.includes(node.id)} lockReason={getNodeLockReason(node, { completedNodeIds, axisLevels: profile.axisLevels })} />
+              </div>
+            );
           })}
         </div>
         <div className="space-y-4">

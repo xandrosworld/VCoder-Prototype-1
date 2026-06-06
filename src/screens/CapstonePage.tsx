@@ -33,7 +33,7 @@ export function CapstonePage() {
         {capstone.scenario}
       </PageHeader>
       <div className="grid gap-5 lg:grid-cols-[1fr_340px]">
-        <div className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+        <div data-tour="capstone-workspace" className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
           <h2 className="font-bold text-slate-950">Expected artifact</h2>
           <div className="mt-3 grid gap-2 md:grid-cols-2">
             {capstone.expectedArtifact.map((item) => <div key={item} className="rounded bg-slate-50 p-2 text-sm font-semibold text-slate-700">{item}</div>)}
