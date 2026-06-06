@@ -1,6 +1,7 @@
 import { BookOpenCheck, ClipboardList, Gauge, LayoutDashboard, RotateCcw, Settings, Trophy, UserRound } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
 import { useDemo } from "../../state/DemoContext";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 import { RoleSwitcher } from "./RoleSwitcher";
 
 const links = [
@@ -29,6 +30,7 @@ export function TopNav() {
           <span className="inline-flex items-center gap-1 rounded bg-amber-50 px-2 py-1 text-xs font-bold text-amber-700 ring-1 ring-amber-200">
             <Gauge size={14} /> Demo mode
           </span>
+          <LanguageSwitcher />
           <RoleSwitcher role={role} onChange={setRole} />
           <button onClick={resetDemo} className="inline-flex items-center gap-1 rounded border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50">
             <RotateCcw size={15} /> Reset

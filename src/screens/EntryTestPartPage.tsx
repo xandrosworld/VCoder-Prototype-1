@@ -14,6 +14,7 @@ import {
   p5VivaQuestions
 } from "../data/entryTestItems";
 import { useDemo } from "../state/DemoContext";
+import { useLanguage } from "../i18n/LanguageContext";
 import type { ArtifactScenario } from "../types/domain";
 import { getAssessmentProgress, getPartProgress } from "../utils/assessment";
 
@@ -26,7 +27,11 @@ const partLabels: Record<AssessmentPartId, string> = {
   p5: "P5 Mini-viva"
 };
 
-function buildDemoAnswers(current: AssessmentAnswers, partId: AssessmentPartId): AssessmentAnswers {
+function buildDemoAnswers(
+  current: AssessmentAnswers,
+  partId: AssessmentPartId,
+  translate: (text: string) => string
+): AssessmentAnswers {
   if (partId === "p1") {
     return {
       ...current,
@@ -38,25 +43,25 @@ function buildDemoAnswers(current: AssessmentAnswers, partId: AssessmentPartId):
       ...current,
       p2: [
         {
-          location: "Database query line",
-          type: "SQL injection",
-          severity: "critical",
-          why: "Untrusted email is interpolated directly into SQL.",
-          proposed_fix: "Use a parameterized query and add an injection regression test."
+          location: translate("Database query line"),
+          type: translate("SQL injection"),
+          severity: translate("critical"),
+          why: translate("Untrusted email is interpolated directly into SQL."),
+          proposed_fix: translate("Use a parameterized query and add an injection regression test.")
         },
         {
-          location: "Password comparison",
-          type: "Authentication",
-          severity: "critical",
-          why: "The endpoint compares plaintext passwords and may crash when no user exists.",
-          proposed_fix: "Handle missing users and verify a password hash using a proven library."
+          location: translate("Password comparison"),
+          type: translate("Authentication"),
+          severity: translate("critical"),
+          why: translate("The endpoint compares plaintext passwords and may crash when no user exists."),
+          proposed_fix: translate("Handle missing users and verify a password hash using a proven library.")
         },
         {
-          location: "Token response",
-          type: "Secret management",
-          severity: "critical",
-          why: "A hardcoded live-style token is returned to every successful login.",
-          proposed_fix: "Issue a signed short-lived token from server-side configuration and rotate exposed credentials."
+          location: translate("Token response"),
+          type: translate("Secret management"),
+          severity: translate("critical"),
+          why: translate("A hardcoded live-style token is returned to every successful login."),
+          proposed_fix: translate("Issue a signed short-lived token from server-side configuration and rotate exposed credentials.")
         }
       ]
     };
@@ -65,10 +70,10 @@ function buildDemoAnswers(current: AssessmentAnswers, partId: AssessmentPartId):
     return {
       ...current,
       p3: {
-        triage: "Stop rollout, reproduce the failure, inspect the stack trace and compare the latest AI-generated diff with the last known-good commit.",
-        recovery_steps: "Capture logs, add a failing regression test, isolate buildExportRows, apply the smallest fix, then verify staging before rollout.",
-        rollback_or_fix_forward: "Rollback first because the change is already failing in a production-like environment and the blast radius is not yet known.",
-        rationale: "Rollback restores a known-good state while preserving time to investigate without compounding the incident."
+        triage: translate("Stop rollout, reproduce the failure, inspect the stack trace and compare the latest AI-generated diff with the last known-good commit."),
+        recovery_steps: translate("Capture logs, add a failing regression test, isolate buildExportRows, apply the smallest fix, then verify staging before rollout."),
+        rollback_or_fix_forward: translate("Rollback first because the change is already failing in a production-like environment and the blast radius is not yet known."),
+        rationale: translate("Rollback restores a known-good state while preserving time to investigate without compounding the incident.")
       }
     };
   }
@@ -76,20 +81,20 @@ function buildDemoAnswers(current: AssessmentAnswers, partId: AssessmentPartId):
     return {
       ...current,
       p4: {
-        plan: "Inspect the existing export route, authorization middleware, data model and tests; propose a small file-level plan before editing.",
-        scoped_prompt: "Add export of the authenticated user's own records only. Preserve public contracts and summarize the diff before final changes.",
-        constraints: "Reuse existing patterns, do not add dependencies, do not read .env, and do not expose other users' data.",
-        acceptance_criteria: "Authorized users receive their own export; unauthorized access is rejected; empty data works; regression tests pass.",
-        off_limits: "Authentication contracts, database migrations, unrelated routes, secrets and deployment configuration."
+        plan: translate("Inspect the existing export route, authorization middleware, data model and tests; propose a small file-level plan before editing."),
+        scoped_prompt: translate("Add export of the authenticated user's own records only. Preserve public contracts and summarize the diff before final changes."),
+        constraints: translate("Reuse existing patterns, do not add dependencies, do not read .env, and do not expose other users' data."),
+        acceptance_criteria: translate("Authorized users receive their own export; unauthorized access is rejected; empty data works; regression tests pass."),
+        off_limits: translate("Authentication contracts, database migrations, unrelated routes, secrets and deployment configuration.")
       }
     };
   }
   return {
     ...current,
     p5: {
-      "p5-1": "String interpolation allows attacker-controlled input to change the SQL command. Use parameterized queries and test malicious input.",
-      "p5-2": "Write tests before accepting behavior changes, security-sensitive code and known bug fixes so the review has executable evidence.",
-      "p5-3": "Guardrails belong at the tool boundary: least-privilege permissions, explicit approval for destructive actions, validation, audit logs and fail-closed behavior."
+      "p5-1": translate("String interpolation allows attacker-controlled input to change the SQL command. Use parameterized queries and test malicious input."),
+      "p5-2": translate("Write tests before accepting behavior changes, security-sensitive code and known bug fixes so the review has executable evidence."),
+      "p5-3": translate("Guardrails belong at the tool boundary: least-privilege permissions, explicit approval for destructive actions, validation, audit logs and fail-closed behavior.")
     }
   };
 }
@@ -112,6 +117,7 @@ export function EntryTestPartPage() {
     submitEntryTest
   } = useDemo();
   const [showValidation, setShowValidation] = useState(false);
+  const { language, t } = useLanguage();
 
   const scenario = useMemo<ArtifactScenario | undefined>(() => {
     if (partId === "p2") return p2AuditScenario;
@@ -130,9 +136,27 @@ export function EntryTestPartPage() {
   }, [assessment.assessmentId, startAssessment, validPart]);
 
   function fillDemoAnswer() {
-    replaceAssessmentAnswers(buildDemoAnswers(assessmentAnswers, partId));
+    replaceAssessmentAnswers(buildDemoAnswers(assessmentAnswers, partId, t));
     setShowValidation(false);
   }
+
+  useEffect(() => {
+    replaceAssessmentAnswers({
+      p1: assessmentAnswers.p1,
+      p2: assessmentAnswers.p2.map((finding) => ({
+        location: t(finding.location),
+        type: t(finding.type),
+        severity: t(finding.severity),
+        why: t(finding.why),
+        proposed_fix: t(finding.proposed_fix)
+      })),
+      p3: Object.fromEntries(Object.entries(assessmentAnswers.p3).map(([key, value]) => [key, t(value)])),
+      p4: Object.fromEntries(Object.entries(assessmentAnswers.p4).map(([key, value]) => [key, t(value)])),
+      p5: Object.fromEntries(Object.entries(assessmentAnswers.p5).map(([key, value]) => [key, t(value)]))
+    });
+    // Language changes are the only time persisted answer text should be localized.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [language]);
 
   function continueToNext() {
     if (!partProgress?.complete) {

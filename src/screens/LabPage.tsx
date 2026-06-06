@@ -1,23 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { PageHeader } from "../components/common/PageHeader";
 import { RubricPreview } from "../components/common/RubricPreview";
 import { StatusBadge } from "../components/common/StatusBadge";
 import { labs } from "../data/labs";
 import { useDemo } from "../state/DemoContext";
+import { useLanguage } from "../i18n/LanguageContext";
 
 export function LabPage() {
   const { labId = "lab-audit-review" } = useParams();
   const lab = labs.find((item) => item.id === labId) ?? labs[1];
   const { completeNode } = useDemo();
   const [answer, setAnswer] = useState("");
+  const { language, t } = useLanguage();
   const [result, setResult] = useState<"pass" | "fail" | null>(null);
 
   function submit() {
-    const pass = answer === lab.strongSample;
+    const pass = answer === lab.strongSample || answer === t(lab.strongSample);
     setResult(pass ? "pass" : "fail");
     if (pass) completeNode(lab.nodeId);
   }
+
+  useEffect(() => {
+    setAnswer((current) => t(current));
+  }, [language, t]);
 
   return (
     <div>
@@ -38,8 +44,8 @@ export function LabPage() {
           </div>
           <textarea value={answer} onChange={(event) => setAnswer(event.target.value)} className="mt-4 min-h-40 w-full rounded border border-slate-300 p-3 text-sm" placeholder="Submission area" />
           <div className="mt-3 flex flex-wrap gap-2">
-            <button onClick={() => setAnswer(lab.strongSample)} className="rounded bg-emerald-600 px-3 py-2 text-sm font-bold text-white">Use strong sample answer</button>
-            <button onClick={() => setAnswer(lab.weakSample)} className="rounded bg-amber-500 px-3 py-2 text-sm font-bold text-white">Use weak sample answer</button>
+            <button onClick={() => setAnswer(t(lab.strongSample))} className="rounded bg-emerald-600 px-3 py-2 text-sm font-bold text-white">Use strong sample answer</button>
+            <button onClick={() => setAnswer(t(lab.weakSample))} className="rounded bg-amber-500 px-3 py-2 text-sm font-bold text-white">Use weak sample answer</button>
             <button onClick={submit} className="rounded bg-blue-600 px-3 py-2 text-sm font-bold text-white">Submit</button>
           </div>
           {result ? (

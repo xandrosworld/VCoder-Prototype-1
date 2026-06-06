@@ -1,15 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLanguage } from "../../i18n/LanguageContext";
 import { useDemo } from "../../state/DemoContext";
 import type { AxisId, LevelId, PartType, ProblemItem, ProblemType } from "../../types/domain";
 
 export function AuthoringForm() {
   const { addAuthoredItem } = useDemo();
-  const [title, setTitle] = useState("Demo audit item: generated export endpoint");
+  const { language, t } = useLanguage();
+  const [title, setTitle] = useState(() => t("Demo audit item: generated export endpoint"));
+  const [titleEdited, setTitleEdited] = useState(false);
   const [axis, setAxis] = useState<AxisId>(2);
   const [level, setLevel] = useState<LevelId>("L2");
   const [difficulty, setDifficulty] = useState(3);
   const [problemType, setProblemType] = useState<ProblemType>("audit");
   const [partType, setPartType] = useState<PartType>("audit");
+
+  useEffect(() => {
+    if (!titleEdited) setTitle(t("Demo audit item: generated export endpoint"));
+  }, [language, t, titleEdited]);
 
   function save() {
     const item: ProblemItem = {
@@ -36,7 +43,7 @@ export function AuthoringForm() {
       <div className="mt-4 grid gap-3 md:grid-cols-2">
         <label className="md:col-span-2">
           <span className="text-xs font-bold uppercase text-slate-500">Title</span>
-          <input value={title} onChange={(event) => setTitle(event.target.value)} className="mt-1 w-full rounded border border-slate-300 p-2 text-sm" />
+          <input value={title} onChange={(event) => { setTitleEdited(true); setTitle(event.target.value); }} className="mt-1 w-full rounded border border-slate-300 p-2 text-sm" />
         </label>
         <label>
           <span className="text-xs font-bold uppercase text-slate-500">Axis</span>

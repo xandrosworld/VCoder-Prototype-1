@@ -1,11 +1,12 @@
 import { CheckCircle2, LockKeyhole } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { PageHeader } from "../components/common/PageHeader";
 import { RubricPreview } from "../components/common/RubricPreview";
 import { StatusBadge } from "../components/common/StatusBadge";
 import { capstones } from "../data/capstones";
 import { useDemo } from "../state/DemoContext";
+import { useLanguage } from "../i18n/LanguageContext";
 import { canAccessGateExam } from "../utils/gating";
 
 export function CapstonePage() {
@@ -14,6 +15,7 @@ export function CapstonePage() {
   const [answer, setAnswer] = useState("");
   const [result, setResult] = useState<"pass" | "fail" | null>(capstonePassed ? "pass" : null);
   const [validationError, setValidationError] = useState("");
+  const { language, t } = useLanguage();
   const gate = canAccessGateExam(completedNodeIds, capstonePassed);
 
   function submit() {
@@ -21,11 +23,15 @@ export function CapstonePage() {
       setValidationError("Add a capstone submission before requesting a score.");
       return;
     }
-    const pass = answer === capstone.strongSample;
+    const pass = answer === capstone.strongSample || answer === t(capstone.strongSample);
     setResult(pass ? "pass" : "fail");
     setCapstonePassed(pass);
     setValidationError("");
   }
+
+  useEffect(() => {
+    setAnswer((current) => t(current));
+  }, [language, t]);
 
   return (
     <div>
@@ -45,8 +51,8 @@ export function CapstonePage() {
           <textarea value={answer} onChange={(event) => setAnswer(event.target.value)} className="mt-5 min-h-44 w-full rounded border border-slate-300 p-3 text-sm" placeholder="Submission area" />
           {validationError ? <p role="alert" className="mt-3 rounded border border-amber-200 bg-amber-50 p-3 text-sm font-semibold text-amber-900">{validationError}</p> : null}
           <div className="mt-3 flex flex-wrap gap-2">
-            <button onClick={() => setAnswer(capstone.strongSample)} className="rounded bg-emerald-600 px-3 py-2 text-sm font-bold text-white">Use strong sample answer</button>
-            <button onClick={() => setAnswer(capstone.weakSample)} className="rounded bg-amber-500 px-3 py-2 text-sm font-bold text-white">Use weak sample answer</button>
+            <button onClick={() => setAnswer(t(capstone.strongSample))} className="rounded bg-emerald-600 px-3 py-2 text-sm font-bold text-white">Use strong sample answer</button>
+            <button onClick={() => setAnswer(t(capstone.weakSample))} className="rounded bg-amber-500 px-3 py-2 text-sm font-bold text-white">Use weak sample answer</button>
             <button onClick={submit} className="rounded bg-blue-600 px-3 py-2 text-sm font-bold text-white">Submit capstone</button>
           </div>
           {result ? (
