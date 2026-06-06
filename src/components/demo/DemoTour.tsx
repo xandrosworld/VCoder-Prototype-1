@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+import { CirclePlay, X } from "lucide-react";
 import { useState } from "react";
 
 const steps = [
@@ -21,9 +21,15 @@ export function DemoTour() {
 
   return (
     <>
-      <button onClick={() => setOpen(true)} className="fixed bottom-5 right-5 z-30 rounded bg-blue-600 px-4 py-3 text-sm font-bold text-white shadow-lg hover:bg-blue-700">
-        Start 5-minute demo tour
-      </button>
+      <div className="mx-auto flex max-w-7xl justify-end px-4 pt-4">
+        <button
+          onClick={() => setOpen(true)}
+          className="inline-flex items-center gap-2 rounded border border-blue-200 bg-white px-3 py-2 text-sm font-bold text-blue-700 shadow-sm hover:bg-blue-50"
+        >
+          <CirclePlay size={18} />
+          Start demo tour
+        </button>
+      </div>
       {open ? (
         <div className="fixed inset-0 z-40 bg-slate-950/40 p-4">
           <div className="ml-auto mt-16 max-w-md rounded-lg bg-white p-5 shadow-xl">

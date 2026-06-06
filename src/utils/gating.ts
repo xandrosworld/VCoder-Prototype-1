@@ -1,7 +1,14 @@
 import type { AxisLevelMap, LearningNode } from "../types/domain";
 import { levelToNumber } from "./level";
 
-const requiredGateNodeIds = ["node-1", "node-2", "node-3", "node-4"];
+export const requiredGateNodeIds = ["node-1", "node-2", "node-3", "node-4"];
+
+export type GateAccess = {
+  unlocked: boolean;
+  missingNodeIds: string[];
+  capstonePassed: boolean;
+  reason?: string;
+};
 
 export function isNodeAvailable(
   node: LearningNode,
@@ -20,15 +27,25 @@ export function getNodeLockReason(node: LearningNode, state: { completedNodeIds:
   return node.lockReason ?? "Locked until prerequisite evidence is complete.";
 }
 
-export function canAccessGateExam(completedNodeIds: string[], capstonePassed: boolean): { unlocked: boolean; reason?: string } {
+export function canAccessGateExam(completedNodeIds: string[], capstonePassed: boolean): GateAccess {
   const missingNodes = requiredGateNodeIds.filter((id) => !completedNodeIds.includes(id));
   if (missingNodes.length > 0) {
-    return { unlocked: false, reason: `Complete required nodes first: ${missingNodes.join(", ")}.` };
+    return {
+      unlocked: false,
+      missingNodeIds: missingNodes,
+      capstonePassed,
+      reason: `Complete ${missingNodes.length} required learning node${missingNodes.length === 1 ? "" : "s"} first.`
+    };
   }
 
   if (!capstonePassed) {
-    return { unlocked: false, reason: "Capstone must be passed before the Level Gate Exam unlocks." };
+    return {
+      unlocked: false,
+      missingNodeIds: [],
+      capstonePassed: false,
+      reason: "Capstone must be passed before the Level Gate Exam unlocks."
+    };
   }
 
-  return { unlocked: true };
+  return { unlocked: true, missingNodeIds: [], capstonePassed: true };
 }

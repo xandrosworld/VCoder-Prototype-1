@@ -1,3 +1,4 @@
+import { AlertCircle, CheckCircle2, LockKeyhole } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { AxisBadge } from "../components/common/AxisBadge";
@@ -5,6 +6,7 @@ import { PageHeader } from "../components/common/PageHeader";
 import { StatusBadge } from "../components/common/StatusBadge";
 import { gateExam } from "../data/gateExamItems";
 import { useDemo } from "../state/DemoContext";
+import { learningNodes } from "../data/learningNodes";
 import { canAccessGateExam } from "../utils/gating";
 import { scoreGateExamFromSeed } from "../utils/scoringSimulation";
 
@@ -13,6 +15,8 @@ export function GateExamPage() {
   const gate = canAccessGateExam(completedNodeIds, capstonePassed);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [result, setResult] = useState<ReturnType<typeof scoreGateExamFromSeed> | null>(null);
+  const [validationError, setValidationError] = useState("");
+  const unansweredCount = gateExam.questions.filter((question) => !answers[question.id]).length;
 
   function fillPassingAnswers() {
     const next: Record<string, string> = {};
@@ -20,12 +24,18 @@ export function GateExamPage() {
       next[question.id] = index < 8 ? question.correctKey : "A";
     });
     setAnswers(next);
+    setValidationError("");
   }
 
   function submit() {
+    if (unansweredCount > 0) {
+      setValidationError(`Answer all questions before submitting. ${unansweredCount} remaining.`);
+      return;
+    }
     const next = scoreGateExamFromSeed(gateExam, answers);
     setResult(next);
     setGatePassed(next.passed);
+    setValidationError("");
   }
 
   return (
@@ -37,9 +47,30 @@ export function GateExamPage() {
         <div className="rounded-lg border border-amber-200 bg-amber-50 p-5">
           <StatusBadge status="warning" label="Locked" />
           <p className="mt-3 text-sm text-amber-900">{gate.reason}</p>
+          <div className="mt-4 space-y-2">
+            {gate.missingNodeIds.map((nodeId) => {
+              const node = learningNodes.find((item) => item.id === nodeId);
+              return (
+                <div key={nodeId} className="flex items-start gap-2 text-sm text-amber-950">
+                  <LockKeyhole className="mt-0.5 shrink-0" size={16} />
+                  <span>{node?.title ?? nodeId}</span>
+                </div>
+              );
+            })}
+            {!gate.capstonePassed ? (
+              <div className="flex items-start gap-2 text-sm text-amber-950">
+                <LockKeyhole className="mt-0.5 shrink-0" size={16} />
+                <span>Level capstone</span>
+              </div>
+            ) : (
+              <div className="flex items-start gap-2 text-sm text-emerald-800">
+                <CheckCircle2 className="mt-0.5 shrink-0" size={16} />
+                <span>Level capstone passed</span>
+              </div>
+            )}
+          </div>
           <div className="mt-4 flex gap-2">
             <Link to="/learning-path" className="rounded bg-slate-950 px-3 py-2 text-sm font-bold text-white">Back to path</Link>
-            <button onClick={() => { setGatePassed(false); }} className="rounded border border-amber-300 px-3 py-2 text-sm font-bold text-amber-900">Cooldown message only</button>
           </div>
         </div>
       ) : (
@@ -73,6 +104,11 @@ export function GateExamPage() {
             <button onClick={fillPassingAnswers} className="rounded bg-emerald-600 px-3 py-2 text-sm font-bold text-white">Use passing sample answers</button>
             <button onClick={submit} className="rounded bg-blue-600 px-3 py-2 text-sm font-bold text-white">Submit Gate Exam</button>
           </div>
+          {validationError ? (
+            <p role="alert" className="mt-4 flex items-start gap-2 rounded border border-amber-200 bg-amber-50 p-3 text-sm font-semibold text-amber-900">
+              <AlertCircle className="mt-0.5 shrink-0" size={17} /> {validationError}
+            </p>
+          ) : null}
         </>
       )}
       {result ? (
